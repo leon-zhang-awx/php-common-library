@@ -1,0 +1,24 @@
+{
+    "name": "leon-zhang-awx/php-common-library",
+    "version": "0.0.1",
+    "type": "library",
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Airwallex\\CommonLibrary\\": ""
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.9",
+      "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
