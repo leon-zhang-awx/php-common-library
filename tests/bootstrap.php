@@ -15,5 +15,6 @@ Init::getInstance([
     'api_key' => $_ENV['API_KEY'],
     'plugin_type' => $_ENV['PLUGIN_TYPE'],
     'plugin_version' => $_ENV['PLUGIN_VERSION'],
+    'platform_version' => $_ENV['PLATFORM_VERSION'],
 ]);
 CacheManager::setInstance(new Cache());

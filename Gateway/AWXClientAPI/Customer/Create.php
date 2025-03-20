@@ -33,7 +33,7 @@ class Create extends AbstractApi
      * @param ResponseInterface $response HTTP response object
      * @return string Parsed response as a raw string
      */
-    protected function parseResponse(ResponseInterface $response): string
+    protected function parseResponse($response): string
     {
         return (string) $response->getBody();
     }

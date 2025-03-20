@@ -1,44 +1,40 @@
 <?php
 namespace Airwallex\CommonLibrary\Struct;
 
-use Airwallex\Services\LogService;
+use Airwallex\CommonLibrary\Gateway\PluginService\Log\Log;
 
 abstract class AbstractBase {
-	public function __construct( $dataArray = null ) {
-		if ( is_array( $dataArray ) ) {
-			$this->setFromArray( $dataArray );
-		}
-	}
+    public function __construct(array $dataArray = []) {
+        if (!empty($dataArray)) {
+            $this->setFromArray($dataArray);
+        }
+    }
 
-	public function setFromArray( $dataArray ) {
-		foreach ( $dataArray as $fieldName => $fieldValue ) {
-			$fieldName  = str_replace( '_', '', ucwords( $fieldName, '_' ) );
-			$methodName = 'set' . ucfirst( $fieldName );
-			if ( method_exists( $this, $methodName ) ) {
-				$this->{$methodName}( $fieldValue );
-			} else {
-				LogService::getInstance()->warning( __METHOD__ . " field {$fieldName} not found in " . get_called_class() );
-			}
-		}
-	}
+    public function setFromArray(array $dataArray): void {
+        foreach ($dataArray as $fieldName => $fieldValue) {
+            $propertyName = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $fieldName))));
+            $methodName   = 'set' . ucfirst($propertyName);
 
-	/**
-	 * Get an array representation of the object
-	 *
-	 * @return array
-	 */
-	public function toArray() {
-		$return = array();
-		foreach ( array_keys( get_object_vars( $this ) ) as $property ) {
-			if ( isset( $this->{$property} ) ) {
-				if ( is_object( $this->{$property} ) && method_exists( $this->{$property}, 'toArray' ) ) {
-					$value = $this->{$property}->toArray();
-				} else {
-					$value = $this->{$property};
-				}
-				$return[ $property ] = $value;
-			}
-		}
-		return $return;
-	}
+            if (method_exists($this, $methodName)) {
+                $this->{$methodName}($fieldValue);
+            }
+        }
+    }
+
+    /**
+     * Get an array representation of the object
+     *
+     * @return array
+     */
+    public function toArray(): array {
+        $result = [];
+        foreach (get_object_vars($this) as $property => $value) {
+            if (is_object($value) && method_exists($value, 'toArray')) {
+                $result[$property] = $value->toArray();
+            } else {
+                $result[$property] = $value;
+            }
+        }
+        return $result;
+    }
 }

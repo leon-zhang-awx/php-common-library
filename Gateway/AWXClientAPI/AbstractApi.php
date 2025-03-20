@@ -56,7 +56,7 @@ abstract class AbstractApi
      *
      * @return void
      */
-    protected function initializePostParams(): void
+    protected function initializePostParams()
     {
         $this->params['request_id'] = $this->generateRequestId();
         $this->params['referrer_data'] = $this->getReferrerData();
@@ -68,7 +68,7 @@ abstract class AbstractApi
      *
      * @return string
      */
-    private function generateRequestId(): string
+    protected function generateRequestId()
     {
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
     }
@@ -79,7 +79,7 @@ abstract class AbstractApi
      * @param array $params
      * @return self
      */
-    protected function setParams(array $params): self
+    protected function setParams(array $params)
     {
         $this->params = array_merge($this->params, $params);
         return $this;
@@ -92,7 +92,7 @@ abstract class AbstractApi
      * @param string $value Parameter value
      * @return self
      */
-    protected function setParam(string $name, string $value): self
+    protected function setParam($name, $value)
     {
         $this->params[$name] = $value;
         return $this;
@@ -104,7 +104,7 @@ abstract class AbstractApi
      * @param string $name Parameter name
      * @return self
      */
-    protected function unsetParam(string $name): self
+    protected function unsetParam($name)
     {
         unset($this->params[$name]);
         return $this;
@@ -115,7 +115,7 @@ abstract class AbstractApi
      *
      * @return array
      */
-    protected function getMetadata(): array
+    protected function getMetadata()
     {
         return [
             'php_version' => phpversion(),
@@ -130,7 +130,7 @@ abstract class AbstractApi
      *
      * @return string
      */
-    private function getBaseUrl(): string
+    protected function getBaseUrl()
     {
         return Init::getInstance()->get('env') === 'demo'
             ? 'https://pci-api-demo.airwallex.com/api/v1/'
@@ -142,7 +142,7 @@ abstract class AbstractApi
      *
      * @return string
      */
-    protected function getMethod(): string
+    protected function getMethod()
     {
         return 'POST';
     }
@@ -152,7 +152,7 @@ abstract class AbstractApi
      *
      * @return array
      */
-    private function getReferrerData(): array
+    private function getReferrerData()
     {
         return [
             'type' => Init::getInstance()->get('plugin_type'),
@@ -165,7 +165,7 @@ abstract class AbstractApi
      *
      * @return string
      */
-    abstract protected function getUri(): string;
+    abstract protected function getUri();
 
     /**
      * Parses the API response.
@@ -173,7 +173,7 @@ abstract class AbstractApi
      * @param ResponseInterface $response
      * @return mixed Parsed response
      */
-    abstract protected function parseResponse(ResponseInterface $response);
+    abstract protected function parseResponse($response);
 
     /**
      * Returns authorization headers.
@@ -181,7 +181,7 @@ abstract class AbstractApi
      * @return array
      * @throws GuzzleException
      */
-    protected function getHeaders(): array
+    protected function getHeaders()
     {
         return [
             'Authorization' => 'Bearer ' . $this->getToken(),
@@ -194,7 +194,7 @@ abstract class AbstractApi
      * @return string
      * @throws GuzzleException
      */
-    protected function getToken(): string
+    protected function getToken()
     {
         $cache = CacheManager::getInstance();
         $token = $cache->get('airwallex_token');
@@ -213,7 +213,7 @@ abstract class AbstractApi
      * @param ResponseInterface $response
      * @return object Parsed JSON object
      */
-    protected function parseJson(ResponseInterface $response): object
+    protected function parseJson($response)
     {
         return json_decode((string)$response->getBody(), false);
     }

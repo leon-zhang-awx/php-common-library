@@ -5,7 +5,7 @@ namespace Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent;
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\AbstractApi;
 use Psr\Http\Message\ResponseInterface;
 
-class All extends AbstractApi
+class Index extends AbstractApi
 {
     protected $paymentConsentId = null;
 
@@ -19,19 +19,28 @@ class All extends AbstractApi
 
     /**
      * @param string $airwallexCustomerId
-     * @return All
+     * @return $this
      */
-    public function setCustomerId(string $airwallexCustomerId)
+    public function setCustomerId(string $airwallexCustomerId): self
     {
         return $this->setParam('customer_id', $airwallexCustomerId);
+    }
+    
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setStatus(string $status): self
+    {
+        return $this->setParam('status', $status);
     }
 
     /**
      * @param int $pageNumber
      * @param int $pageSize
-     * @return All
+     * @return $this
      */
-    public function setPage(int $pageNumber, int $pageSize = 20)
+    public function setPage(int $pageNumber = 1, int $pageSize = 20): self
     {
         return $this->setParam('page_num', $pageNumber)
             ->setParam('page_size', $pageSize);
@@ -40,9 +49,9 @@ class All extends AbstractApi
 
     /**
      * @param string $triggerReason
-     * @return All
+     * @return $this
      */
-    public function setTriggerReason(string $triggerReason)
+    public function setTriggerReason(string $triggerReason): self
     {
         return $this->setParam('merchant_trigger_reason', $triggerReason);
     }
@@ -61,7 +70,7 @@ class All extends AbstractApi
      * @param string $paymentConsentId
      * @return $this
      */
-    public function setPaymentConsentId(string $paymentConsentId): All
+    public function setPaymentConsentId(string $paymentConsentId): self
     {
         $this->paymentConsentId = $paymentConsentId;
 
@@ -71,9 +80,9 @@ class All extends AbstractApi
 
     /**
      * @param string $triggeredBy
-     * @return All
+     * @return $this
      */
-    public function setNextTriggeredBy(string $triggeredBy)
+    public function setNextTriggeredBy(string $triggeredBy): self
     {
         return $this->setParam('next_triggered_by', $triggeredBy);
     }
@@ -82,9 +91,8 @@ class All extends AbstractApi
      * Parses the API response and returns the raw response body.
      *
      * @param ResponseInterface $response HTTP response object
-     * @return string Parsed response as a raw string
      */
-    protected function parseResponse(ResponseInterface $response): string
+    protected function parseResponse($response): string
     {
         return (string) $response->getBody();
     }

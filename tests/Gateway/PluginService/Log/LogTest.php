@@ -10,6 +10,9 @@ final class LogTest extends TestCase
 {
     public function testCustomerCreate(): void
     {
-        Log::debug('Customer Create', 'xxx', 'vvv');
+        $resp1 = Log::error('onWebhook', 'something wrong');
+        $resp2 = Log::info('onAirwallexController', 'log for test');
+        $this->assertEquals($resp1, 'ok');
+        $this->assertEquals($resp2, 'ok');
     }
 }

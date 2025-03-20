@@ -26,7 +26,7 @@ class Authentication extends AbstractApi
         return 'authentication/login';
     }
 
-    protected function parseResponse(ResponseInterface $response)
+    protected function parseResponse($response)
     {
         return $this->parseJson($response);
     }
