@@ -35,7 +35,7 @@ class Disable extends AbstractApi
      *
      * @return string
      */
-    protected function parseResponse(ResponseInterface $response): string
+    protected function parseResponse($response): string
     {
         $response = $this->parseJson($response);
 

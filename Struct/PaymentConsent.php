@@ -297,4 +297,40 @@ class PaymentConsent extends AbstractBase {
         $this->requestId = $requestId;
         return $this;
     }
+
+    /**
+     * Get Card Band
+     *
+     * @return string
+     */
+    public function getCardBrand() {
+        return $this->paymentMethod['card']['brand'] ?? '';
+    }
+
+    /**
+     * Get CARD EXPIRY MONTH
+     *
+     * @return string
+     */
+    public function getCardExpiryMonth() {
+        return $this->paymentMethod['card']['expiry_month'] ?? '';
+    }
+
+    /**
+     * Get CARD EXPIRY YEAR
+     *
+     * @return string
+     */
+    public function getCardExpiryYear() {
+        return $this->paymentMethod['card']['expiry_year'] ?? '';
+    }
+
+    /**
+     * Get Card last4
+     *
+     * @return string
+     */
+    public function getCardLast4() {
+        return $this->paymentMethod['card']['last4'] ?? '';
+    }
 }
