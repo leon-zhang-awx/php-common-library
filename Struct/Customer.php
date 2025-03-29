@@ -14,6 +14,7 @@ class Customer extends AbstractBase {
     protected $updatedAt;
     protected $phoneNumber;
     protected $additionalInfo;
+    protected $clientSecret;
 
     /**
      * Get customer ID
@@ -182,6 +183,25 @@ class Customer extends AbstractBase {
      */
     public function getPhoneNumber() {
         return $this->phoneNumber;
+    }
+
+    /**
+     * Get customer client secret
+     *
+     * @return mixed
+     */
+    public function getclientSecret() {
+        return $this->clientSecret;
+    }
+
+    /**
+     * Set customer client secret
+     *
+     * @return Customer
+     */
+    public function setclientSecret($clientSecret) {
+        $this->clientSecret = $clientSecret;
+        return $this;
     }
 
     /**
