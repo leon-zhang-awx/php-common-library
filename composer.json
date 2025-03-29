@@ -1,6 +1,6 @@
 {
     "name": "leon-zhang-awx/php-common-library",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "type": "library",
     "minimum-stability": "stable",
     "autoload": {
