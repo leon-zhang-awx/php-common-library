@@ -6,7 +6,6 @@ use Airwallex\CommonLibrary\Configuration\Init;
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\AbstractApi;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
 
 class Log extends AbstractApi
 {
@@ -94,17 +93,17 @@ class Log extends AbstractApi
     {
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
         $platforms = [
-            'linux'    => 'Linux',
-            'android'  => 'Android',
-            'windows'  => 'Windows',
-            'ios'      => ['iPhone', 'iPad'],
-            'macos'    => ['Macintosh', 'Mac OS X'],
-            'other'    => '',
+            'linux' => 'Linux',
+            'android' => 'Android',
+            'windows' => 'Windows',
+            'ios' => ['iPhone', 'iPad'],
+            'macos' => ['Macintosh', 'Mac OS X'],
+            'other' => '',
         ];
 
         foreach ($platforms as $key => $values) {
             foreach ((array)$values as $value) {
-                if (strpos($userAgent, $value) !== false) {
+                if (!empty($userAgent) && strpos($userAgent, $value) !== false) {
                     return $key;
                 }
             }
@@ -122,14 +121,14 @@ class Log extends AbstractApi
     {
         $this->setParams([
             'commonData' => [
-                'accountId'  => $this->getAccountId(),
-                'appName'    => 'pa_plugin',
-                'source'     => Init::getInstance()->get('plugin_type') ?: 'php_common_library',
-                'deviceId'   => 'unknown',
-                'sessionId'  => self::getSessionId(),
+                'accountId' => $this->getAccountId(),
+                'appName' => 'pa_plugin',
+                'source' => Init::getInstance()->get('plugin_type') ?: 'php_common_library',
+                'deviceId' => 'unknown',
+                'sessionId' => self::getSessionId(),
                 'appVersion' => Init::getInstance()->get('plugin_version'),
-                'platform'   => $this->getClientPlatform(),
-                'env'        => Init::getInstance()->get('env') === 'demo' ? 'demo' : 'prod',
+                'platform' => $this->getClientPlatform(),
+                'env' => Init::getInstance()->get('env') === 'demo' ? 'demo' : 'prod',
             ]
         ]);
     }
@@ -149,10 +148,10 @@ class Log extends AbstractApi
      * @param string $eventName
      * @param string $message
      *
-     * @return ResponseInterface
+     * @return Response
      * @throws GuzzleException
      */
-    public static function info(string $message, string $eventName = ""): ResponseInterface
+    public static function info(string $message, string $eventName = ""): Response
     {
         return self::log('info', $eventName, $message);
     }
@@ -161,10 +160,10 @@ class Log extends AbstractApi
      * @param string $eventName
      * @param string $message
      *
-     * @return ResponseInterface
+     * @return Response
      * @throws GuzzleException
      */
-    public static function error(string $message, string $eventName = ""): ResponseInterface
+    public static function error(string $message, string $eventName = ""): Response
     {
         return self::log('error', $eventName, $message);
     }
@@ -174,20 +173,20 @@ class Log extends AbstractApi
      * @param string $eventName
      * @param string $message
      *
-     * @return ResponseInterface
+     * @return Response
      * @throws GuzzleException
      */
-    public static function log(string $severity, string $eventName, string $message): ResponseInterface
+    public static function log(string $severity, string $eventName, string $message): Response
     {
         $instance = self::getInstance();
         $instance->setParams([
             'data' => [
                 [
-                    'severity'  => $severity,
+                    'severity' => $severity,
                     'eventName' => $eventName,
-                    'message'   => $message,
-                    'trace'     => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-                    'metadata'  => $instance->getMetadata(),
+                    'message' => $message,
+                    'trace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+                    'metadata' => $instance->getMetadata(),
                 ]
             ]
         ]);
@@ -198,10 +197,10 @@ class Log extends AbstractApi
     /**
      * @param Response $response
      *
-     * @return string
+     * @return Response
      */
-    protected function parseResponse(Response $response): string
+    protected function parseResponse(Response $response): Response
     {
-        return (string) $response->getBody();
+        return $response;
     }
 }

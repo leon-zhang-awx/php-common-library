@@ -3,7 +3,9 @@
 namespace Airwallex\CommonLibrary\tests\Gateway\AWXClientAPI\PaymentConsent;
 
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\Customer\Create;
-use Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent\Index;
+use Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent\GetList;
+use Airwallex\CommonLibrary\Struct\Customer;
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
@@ -11,15 +13,14 @@ final class PaymentConsentTest extends TestCase
 {
     /**
      * @throws GuzzleException
+     * @throws Exception
      */
     public function testPaymentConsent()
     {
-        $response = (new Create())->setCustomerId()->send();
-        $arr = json_decode($response, true);
-        $this->assertArrayHasKey('id', $arr);
-        $customerId = $arr['id'];
-        $response = (new Index())->setCustomerId($customerId)->send();
-        $all = json_decode($response, true);
-        $this->assertEmpty($all['items']);
+        /** @var Customer $customer */
+        $customer = (new Create())->setCustomerId()->send();
+        $this->assertNotEmpty($customer->getId());
+        $list = (new GetList())->setCustomerId($customer->getId())->send();
+        $this->assertCount(0, $list);
     }
 }

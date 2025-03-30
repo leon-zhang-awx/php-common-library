@@ -2,6 +2,7 @@
 
 namespace Airwallex\CommonLibrary\UseCase\PaymentConsent;
 
+use Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent\GetList;
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent\Index;
 use Airwallex\CommonLibrary\Struct\PaymentConsent;
 use Exception;
@@ -44,27 +45,26 @@ class All
         $all = [];
         try {
             while (true) {
-                $res = (new Index())
+                $list = (new GetList())
                     ->setCustomerId($this->customerId)
                     ->setNextTriggeredBy($this->triggeredBy)
                     ->setPage($index)
                     ->send();
 
-                $index++;
-                $resArr = json_decode($res, true);
-                if (!empty($resArr['items'])) {
-                    foreach ($resArr['items'] as $item) {
-                        $obj = new PaymentConsent($item);
-                        if ($obj->getStatus() === self::STATUS_VERIFIED) {
-                            $all[] = $obj;
-                        }
-                    }
-                }
-                if (empty($resArr['has_more'])) {
+                if (empty($list)) {
                     break;
                 }
+                /** @var PaymentConsent $paymentConsent */
+                foreach ($list as $paymentConsent) {
+                    if ($paymentConsent->getStatus() === self::STATUS_VERIFIED) {
+                        $all[] = $paymentConsent;
+                    }
+                }
+
+                $index++;
             }
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
         return $all;
     }
 

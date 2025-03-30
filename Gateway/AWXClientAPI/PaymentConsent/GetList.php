@@ -5,9 +5,8 @@ namespace Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent;
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\AbstractApi;
 use Airwallex\CommonLibrary\Struct\PaymentConsent;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
 
-class Index extends AbstractApi
+class GetList extends AbstractApi
 {
     /**
      * @var string
@@ -25,19 +24,19 @@ class Index extends AbstractApi
     /**
      * @param string $airwallexCustomerId
      *
-     * @return Index
+     * @return GetList
      */
-    public function setCustomerId(string $airwallexCustomerId): Index
+    public function setCustomerId(string $airwallexCustomerId): GetList
     {
         return $this->setParam('customer_id', $airwallexCustomerId);
     }
-    
+
     /**
      * @param string $status
      *
-     * @return Index
+     * @return GetList
      */
-    public function setStatus(string $status): Index
+    public function setStatus(string $status): GetList
     {
         return $this->setParam('status', $status);
     }
@@ -46,9 +45,9 @@ class Index extends AbstractApi
      * @param int $pageNumber
      * @param int $pageSize
      *
-     * @return Index
+     * @return GetList
      */
-    public function setPage(int $pageNumber = 1, int $pageSize = 20): Index
+    public function setPage(int $pageNumber = 1, int $pageSize = 20): GetList
     {
         return $this->setParam('page_num', $pageNumber)
             ->setParam('page_size', $pageSize);
@@ -58,9 +57,9 @@ class Index extends AbstractApi
     /**
      * @param string $triggerReason
      *
-     * @return Index
+     * @return GetList
      */
-    public function setTriggerReason(string $triggerReason): Index
+    public function setTriggerReason(string $triggerReason): GetList
     {
         return $this->setParam('merchant_trigger_reason', $triggerReason);
     }
@@ -76,9 +75,9 @@ class Index extends AbstractApi
     /**
      * @param string $paymentConsentId
      *
-     * @return Index
+     * @return GetList
      */
-    public function setPaymentConsentId(string $paymentConsentId): Index
+    public function setPaymentConsentId(string $paymentConsentId): GetList
     {
         $this->paymentConsentId = $paymentConsentId;
         return $this;
@@ -88,9 +87,9 @@ class Index extends AbstractApi
     /**
      * @param string $triggeredBy
      *
-     * @return Index
+     * @return GetList
      */
-    public function setNextTriggeredBy(string $triggeredBy): Index
+    public function setNextTriggeredBy(string $triggeredBy): GetList
     {
         return $this->setParam('next_triggered_by', $triggeredBy);
     }
@@ -98,10 +97,18 @@ class Index extends AbstractApi
     /**
      * @param Response $response
      *
-     * @return PaymentConsent
+     * @return array
      */
-    protected function parseResponse(Response $response): PaymentConsent
+    protected function parseResponse(Response $response): array
     {
-        return new PaymentConsent(json_decode($response->getBody(), true));
+        $result = [];
+        $responseArray = json_decode($response->getBody(), true);
+        if (!empty($responseArray['has_more'])) {
+            foreach ($responseArray['items'] as $item) {
+                $result[] = new PaymentConsent($item);
+            }
+        }
+
+        return $result;
     }
 }

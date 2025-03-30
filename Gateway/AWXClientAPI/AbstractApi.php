@@ -139,7 +139,7 @@ abstract class AbstractApi
      */
     protected function getBaseUrl(): string
     {
-        return Init::getInstance()->get('env') === 'demo' ? self::DEMO_BASE_URL : self::PRODUCTION_BASE_URL;
+        return Init::getInstance()->get('env') === 'demo' ? static::DEMO_BASE_URL : static::PRODUCTION_BASE_URL;
     }
 
     /**
