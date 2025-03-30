@@ -4,21 +4,25 @@ namespace Airwallex\CommonLibrary\Gateway\AWXClientAPI\Customer;
 
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\AbstractApi;
 use Airwallex\CommonLibrary\Struct\CustomerClientSecret;
-use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Psr7\Response;
 
 class GenerateClientSecret extends AbstractApi
 {
+    /**
+     * @var string
+     */
     protected $customerId;
 
-    protected function getMethod()
+    /**
+     * @inheritDoc
+     */
+    protected function getMethod(): string
     {
         return 'GET';
     }
 
     /**
-     * Returns the API endpoint URI for creating a customer.
-     *
-     * @return string API URL endpoint
+     * @inheritDoc
      */
     protected function getUri(): string
     {
@@ -26,9 +30,9 @@ class GenerateClientSecret extends AbstractApi
     }
 
     /**
-     * Sets the customer ID.
+     * @param string $customerId
      *
-     * @return self Returns instance for method chaining
+     * @return GenerateClientSecret
      */
     public function setCustomerId(string $customerId): self
     {
@@ -37,12 +41,10 @@ class GenerateClientSecret extends AbstractApi
     }
 
     /**
-     * Parses the API response and returns the raw response body.
-     *
-     * @param ResponseInterface $response HTTP response object
-     * @return string Parsed response as a raw string
+     * @param Response $response
+     * @return CustomerClientSecret
      */
-    protected function parseResponse($response)
+    protected function parseResponse(Response $response): CustomerClientSecret
     {
         return new CustomerClientSecret(json_decode($response->getBody(), true));
     }

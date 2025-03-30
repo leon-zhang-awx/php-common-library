@@ -2,236 +2,317 @@
 
 namespace Airwallex\CommonLibrary\Struct;
 
-class Customer extends AbstractBase {
-
+class Customer extends AbstractBase
+{
+    /**
+     * @var string
+     */
     protected $id;
+
+    /**
+     * @var string
+     */
     protected $requestId;
-    protected $email;
-    protected $firstName;
-    protected $lastName;
-    protected $merchantCustomerId;
-    protected $createdAt;
-    protected $updatedAt;
-    protected $phoneNumber;
-    protected $additionalInfo;
+
+    /**
+     * @var string
+     */
+    protected $businessName;
+
+    /**
+     * @var string
+     */
     protected $clientSecret;
 
     /**
-     * Get customer ID
-     *
-     * @return mixed
+     * @var array
      */
-    public function getId() {
+    protected $address;
+
+    /**
+     * @var array
+     */
+    protected $metadata;
+
+    /**
+     * @var string
+     */
+    protected $email;
+
+    /**
+     * @var string
+     */
+    protected $firstName;
+
+    /**
+     * @var string
+     */
+    protected $lastName;
+
+    /**
+     * @var string
+     */
+    protected $merchantCustomerId;
+
+    /**
+     * @var string
+     */
+    protected $createdAt;
+
+    /**
+     * @var string
+     */
+    protected $updatedAt;
+
+    /**
+     * @var string
+     */
+    protected $phoneNumber;
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
         return $this->id;
     }
 
     /**
-     * Set customer ID
+     * @param string $id
      *
-     * @param mixed $id
      * @return Customer
      */
-    public function setId( $id ) {
+    public function setId(string $id): Customer
+    {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * Get request ID
-     *
-     * @return mixed
+     * @return string
      */
-    public function getRequestId() {
+    public function getRequestId(): string
+    {
         return $this->requestId;
     }
 
     /**
-     * Set request ID
+     * @param string $requestId
      *
-     * @param mixed $requestId
      * @return Customer
      */
-    public function setRequestId( $requestId ) {
+    public function setRequestId(string $requestId): Customer
+    {
         $this->requestId = $requestId;
         return $this;
     }
 
     /**
-     * Get customer email
-     *
-     * @return mixed
+     * @return string
      */
-    public function getEmail() {
-        return $this->email;
+    public function getBusinessName(): string
+    {
+        return $this->businessName;
     }
 
     /**
-     * Set customer email
+     * @param string $businessName
      *
-     * @param mixed $email
      * @return Customer
      */
-    public function setEmail( $email ) {
-        $this->email = $email;
+    public function setBusinessName(string $businessName): Customer
+    {
+        $this->businessName = $businessName;
         return $this;
     }
 
     /**
-     * Get customer first name
-     *
-     * @return mixed
+     * @return string
      */
-    public function getFirstName() {
-        return $this->firstName;
-    }
-
-    /**
-     * Set customer first name
-     *
-     * @param mixed $firstName
-     * @return Customer
-     */
-    public function setFirstName( $firstName ) {
-        $this->firstName = $firstName;
-        return $this;
-    }
-
-    /**
-     * Get customer last name
-     *
-     * @return mixed
-     */
-    public function getLastName() {
-        return $this->lastName;
-    }
-
-    /**
-     * Set customer last name
-     *
-     * @param mixed $lastName
-     * @return Customer
-     */
-    public function setLastName( $lastName ) {
-        $this->lastName = $lastName;
-        return $this;
-    }
-
-    /**
-     * Get merchant customer ID
-     *
-     * @return mixed
-     */
-    public function getMerchantCustomerId() {
-        return $this->merchantCustomerId;
-    }
-
-    /**
-     * Set merchant customer ID
-     *
-     * @param mixed $merchantCustomerId
-     * @return Customer
-     */
-    public function setMerchantCustomerId( $merchantCustomerId ) {
-        $this->merchantCustomerId = $merchantCustomerId;
-        return $this;
-    }
-
-    /**
-     * Get customer created time
-     *
-     * @return mixed
-     */
-    public function getCreatedAt() {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set customer created time
-     *
-     * @param mixed $createdAt
-     * @return Customer
-     */
-    public function setCreatedAt( $createdAt ) {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * Get customer updated time
-     *
-     * @return mixed
-     */
-    public function getUpdatedAt() {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Set customer updated time
-     *
-     * @param mixed $updatedAt
-     * @return Customer
-     */
-    public function setUpdatedAt( $updatedAt ) {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
-    /**
-     * Get customer phone number
-     *
-     * @return mixed
-     */
-    public function getPhoneNumber() {
-        return $this->phoneNumber;
-    }
-
-    /**
-     * Get customer client secret
-     *
-     * @return mixed
-     */
-    public function getclientSecret() {
+    public function getClientSecret(): string
+    {
         return $this->clientSecret;
     }
 
     /**
-     * Set customer client secret
+     * @param string $clientSecret
      *
      * @return Customer
      */
-    public function setclientSecret($clientSecret) {
+    public function setClientSecret(string $clientSecret): Customer
+    {
         $this->clientSecret = $clientSecret;
         return $this;
     }
 
     /**
-     * Set customer phone number
+     * @return array
+     */
+    public function getAddress(): array
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param array $address
      *
-     * @param mixed $phoneNumber
      * @return Customer
      */
-    public function setPhoneNumber( $phoneNumber ) {
-        $this->phoneNumber = $phoneNumber;
+    public function setAddress(array $address): Customer
+    {
+        $this->address = $address;
         return $this;
     }
 
     /**
-     * Get additional info
-     *
-     * @return mixed
+     * @return array
      */
-    public function getAdditionalInfo() {
-        return $this->additionalInfo;
+    public function getMetadata(): array
+    {
+        return $this->metadata;
     }
 
     /**
-     * Set additional info
+     * @param array $metadata
      *
-     * @param mixed $additionalInfo
      * @return Customer
      */
-    public function setAdditionalInfo( $additionalInfo ) {
-        $this->additionalInfo = $additionalInfo;
+    public function setMetadata(array $metadata): Customer
+    {
+        $this->metadata = $metadata;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return Customer
+     */
+    public function setEmail(string $email): Customer
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     *
+     * @return Customer
+     */
+    public function setFirstName(string $firstName): Customer
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     *
+     * @return Customer
+     */
+    public function setLastName(string $lastName): Customer
+    {
+        $this->lastName = $lastName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerchantCustomerId(): string
+    {
+        return $this->merchantCustomerId;
+    }
+
+    /**
+     * @param string $merchantCustomerId
+     *
+     * @return Customer
+     */
+    public function setMerchantCustomerId(string $merchantCustomerId): Customer
+    {
+        $this->merchantCustomerId = $merchantCustomerId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     *
+     * @return Customer
+     */
+    public function setCreatedAt(string $createdAt): Customer
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param string $updatedAt
+     *
+     * @return Customer
+     */
+    public function setUpdatedAt(string $updatedAt): Customer
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhoneNumber(): string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param string $phoneNumber
+     *
+     * @return Customer
+     */
+    public function setPhoneNumber(string $phoneNumber): Customer
+    {
+        $this->phoneNumber = $phoneNumber;
         return $this;
     }
 }

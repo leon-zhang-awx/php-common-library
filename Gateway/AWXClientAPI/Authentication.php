@@ -2,18 +2,16 @@
 
 namespace Airwallex\CommonLibrary\Gateway\AWXClientAPI;
 
-use Airwallex\CommonLibrary\Cache\CacheManager;
 use Airwallex\CommonLibrary\Configuration\Init;
-use Exception;
-use GuzzleHttp\Client;
+use Airwallex\CommonLibrary\Struct\AccessToken;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
-use Ramsey\Uuid\Uuid;
-use Composer\InstalledVersions;
 
 class Authentication extends AbstractApi
 {
+    /**
+     * @return array
+     */
     protected function getHeaders(): array
     {
         return [
@@ -22,13 +20,20 @@ class Authentication extends AbstractApi
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function getUri(): string
     {
         return 'authentication/login';
     }
 
-    protected function parseResponse(Response $response)
+    /**
+     * @param Response $response
+     * @return AccessToken
+     */
+    protected function parseResponse(Response $response): AccessToken
     {
-        return json_decode((string)$response->getBody());
+        return new AccessToken(json_decode($response->getBody(), true));
     }
 }

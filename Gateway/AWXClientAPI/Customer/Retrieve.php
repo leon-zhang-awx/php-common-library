@@ -5,27 +5,39 @@ namespace Airwallex\CommonLibrary\Gateway\AWXClientAPI\Customer;
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\AbstractApi;
 use Airwallex\CommonLibrary\Struct\Customer;
 use GuzzleHttp\Psr7\Response;
-use Exception;
 
-class Create extends AbstractApi
+class Retrieve extends AbstractApi
 {
+    /**
+     * @var string
+     */
+    protected $id;
+
     /**
      * @inheritDoc
      */
     protected function getUri(): string
     {
-        return 'pa/customers/create';
+        return 'pa/customers/' . $this->id;
     }
 
     /**
-     * @return Create
-     *
-     * @throws Exception
+     * @inheritDoc
      */
-    public function setCustomerId(): Create
+    protected function getMethod(): string
     {
-        $merchantCustomerId = substr(bin2hex(random_bytes(10)), 0, 20);
-        return $this->setParam('merchant_customer_id', $merchantCustomerId);
+        return 'GET';
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return Retrieve
+     */
+    public function setCustomerId(string $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**

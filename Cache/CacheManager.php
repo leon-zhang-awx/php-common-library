@@ -23,6 +23,7 @@ class CacheManager
 
     /**
      * @return CacheInterface
+     *
      * @throws RuntimeException
      */
     public static function getInstance()

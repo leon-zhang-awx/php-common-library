@@ -5,35 +5,35 @@ namespace Airwallex\CommonLibrary\Gateway\PluginService\Log;
 use Airwallex\CommonLibrary\Configuration\Init;
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\AbstractApi;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class Log
- * Handles logging functionality for Airwallex Plugin Service.
- */
 class Log extends AbstractApi
 {
+    /**
+     * @var string
+     */
+    const DEMO_BASE_URL = 'https://api-demo.airwallex.com/';
+
+    /**
+     * @var string
+     */
+    const PRODUCTION_BASE_URL = 'https://api.airwallex.com/';
+
+    /**
+     * @var string
+     */
     private static $sessionId = null;
+
+    /**
+     * @var Log
+     */
     private static $instance = null;
 
     /**
-     * Get the base API URL based on the environment.
-     *
-     * @return string
-     */
-    protected function getBaseUrl()
-    {
-        return Init::getInstance()->get('env') === 'demo'
-            ? 'https://api-demo.airwallex.com/'
-            : 'https://api.airwallex.com/';
-    }
-
-    /**
-     * Returns custom headers for requests.
-     *
      * @return array
      */
-    protected function getHeaders()
+    protected function getHeaders(): array
     {
         return [
             'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
@@ -41,22 +41,19 @@ class Log extends AbstractApi
     }
 
     /**
-     * Returns the API endpoint URI.
-     *
-     * @return string
+     * @inheritDoc
      */
-    protected function getUri()
+    protected function getUri(): string
     {
         return 'papluginlogs/logs';
     }
 
     /**
-     * Decodes a JWT token and extracts `account_id`, if available.
-     *
      * @param string $token
+     *
      * @return string
      */
-    protected function decodeJWT($token)
+    protected function decodeJWT(string $token): string
     {
         $parts = explode('.', $token);
         if (count($parts) < 2) {
@@ -69,22 +66,19 @@ class Log extends AbstractApi
     }
 
     /**
-     * Retrieves the Account ID from the token.
-     *
      * @return string
+     *
      * @throws GuzzleException
      */
-    protected function getAccountId()
+    protected function getAccountId(): string
     {
         return $this->decodeJWT($this->getToken());
     }
 
     /**
-     * Generates and returns a unique Session ID.
-     *
      * @return string
      */
-    protected static function getSessionId()
+    protected static function getSessionId(): string
     {
         if (!isset(self::$sessionId)) {
             self::$sessionId = uniqid('', true);
@@ -94,11 +88,9 @@ class Log extends AbstractApi
     }
 
     /**
-     * Determines the client’s platform using the User-Agent header.
-     *
      * @return string
      */
-    protected function getClientPlatform()
+    protected function getClientPlatform(): string
     {
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
         $platforms = [
@@ -122,9 +114,8 @@ class Log extends AbstractApi
     }
 
     /**
-     * Initializes common parameters for logging requests.
-     *
      * @return void
+     *
      * @throws GuzzleException
      */
     protected function initializePostParams()
@@ -144,9 +135,7 @@ class Log extends AbstractApi
     }
 
     /**
-     * Returns the singleton instance of the Log class.
-     *
-     * @return self
+     * @return Log
      */
     public static function getInstance()
     {
@@ -157,41 +146,38 @@ class Log extends AbstractApi
     }
 
     /**
-     * Logs an informational event.
-     *
      * @param string $eventName
      * @param string $message
+     *
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    public static function info($message, $eventName = "")
+    public static function info(string $message, string $eventName = ""): ResponseInterface
     {
         return self::log('info', $eventName, $message);
     }
 
     /**
-     * Logs an error event.
-     *
      * @param string $eventName
      * @param string $message
+     *
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    public static function error($message, $eventName = "")
+    public static function error(string $message, string $eventName = ""): ResponseInterface
     {
         return self::log('error', $eventName, $message);
     }
 
     /**
-     * Generic log function to log messages.
-     *
      * @param string $severity
      * @param string $eventName
      * @param string $message
+     *
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    public static function log($severity, $eventName, $message)
+    public static function log(string $severity, string $eventName, string $message): ResponseInterface
     {
         $instance = self::getInstance();
         $instance->setParams([
@@ -210,12 +196,11 @@ class Log extends AbstractApi
     }
 
     /**
-     * Parses the API response.
+     * @param Response $response
      *
-     * @param ResponseInterface $response
      * @return string
      */
-    protected function parseResponse($response)
+    protected function parseResponse(Response $response): string
     {
         return (string) $response->getBody();
     }

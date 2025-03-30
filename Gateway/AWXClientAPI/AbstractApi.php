@@ -4,6 +4,7 @@ namespace Airwallex\CommonLibrary\Gateway\AWXClientAPI;
 
 use Airwallex\CommonLibrary\Cache\CacheManager;
 use Airwallex\CommonLibrary\Configuration\Init;
+use Airwallex\CommonLibrary\Struct\AccessToken;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -192,8 +193,10 @@ abstract class AbstractApi
         $token = $cache->get('airwallex_token');
 
         if (!$token) {
-            $token = (new Authentication())->send()->token;
-            $cache->set('airwallex_token', $token, 60 * 30); // Cache for 30 minutes
+            /** @var AccessToken $accessToken */
+            $accessToken = (new Authentication())->send();
+            $token = $accessToken->getToken();
+            $cache->set('airwallex_token', $token, 60 * 30);
         }
 
         return $token;

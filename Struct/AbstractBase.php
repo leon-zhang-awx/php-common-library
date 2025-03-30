@@ -4,6 +4,9 @@ namespace Airwallex\CommonLibrary\Struct;
 
 abstract class AbstractBase
 {
+    /**
+     * @param array $dataArray
+     */
     public function __construct(array $dataArray = [])
     {
         if (!empty($dataArray)) {
@@ -11,6 +14,11 @@ abstract class AbstractBase
         }
     }
 
+    /**
+     * @param array $dataArray
+     *
+     * @return void
+     */
     public function setFromArray(array $dataArray)
     {
         foreach ($dataArray as $fieldName => $fieldValue) {

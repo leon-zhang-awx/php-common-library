@@ -4,18 +4,41 @@ namespace Airwallex\CommonLibrary\UseCase\PaymentConsent;
 
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent\Index;
 use Airwallex\CommonLibrary\Struct\PaymentConsent;
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 
 class All
 {
+    /**
+     * @var string
+     */
     const STATUS_VERIFIED = 'VERIFIED';
+
+    /**
+     * @var string
+     */
     const TRIGGERED_BY_CUSTOMER = 'customer';
+
+    /**
+     * @var string
+     */
     const TRIGGERED_BY_MERCHANT = 'merchant';
+
+    /**
+     * @var string
+     */
     protected $triggeredBy;
+
+    /**
+     * @var string
+     */
     protected $customerId;
 
-
-
-    public function get()
+    /**
+     * @return array
+     * @throws GuzzleException
+     */
+    public function get(): array
     {
         $index = 0;
         $all = [];
@@ -24,8 +47,7 @@ class All
                 $res = (new Index())
                     ->setCustomerId($this->customerId)
                     ->setNextTriggeredBy($this->triggeredBy)
-
-                    ->setPage($index,20)
+                    ->setPage($index)
                     ->send();
 
                 $index++;
@@ -38,21 +60,31 @@ class All
                         }
                     }
                 }
-                if (!$resArr['has_more']) {
+                if (empty($resArr['has_more'])) {
                     break;
                 }
             }
-        } catch (\Exception $e) {}
+        } catch (Exception $e) {}
         return $all;
     }
 
-    public function setNextTriggeredBy(string $triggeredBy): self
+    /**
+     * @param string $triggeredBy
+     *
+     * @return All
+     */
+    public function setNextTriggeredBy(string $triggeredBy): All
     {
         $this->triggeredBy = $triggeredBy;
         return $this;
     }
 
-    public function setCustomerId(string $airwallexCustomerId): self
+    /**
+     * @param string $airwallexCustomerId
+     *
+     * @return All
+     */
+    public function setCustomerId(string $airwallexCustomerId): All
     {
         $this->customerId = $airwallexCustomerId;
         return $this;

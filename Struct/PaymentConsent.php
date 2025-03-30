@@ -2,335 +2,446 @@
 
 namespace Airwallex\CommonLibrary\Struct;
 
-class PaymentConsent extends AbstractBase {
+class PaymentConsent extends AbstractBase
+{
+
+    /**
+     * @var string
+     */
     protected $id;
-    protected $customerId;
-    protected $metadata = [];
-    protected $status;
-    protected $initialPaymentIntentId;
+
+    /**
+     * @var string
+     */
+    protected $clientSecret;
+
+    /**
+     * @var string
+     */
+    protected $connectedAccountId;
+
+    /**
+     * @var string
+     */
     protected $createdAt;
+
+    /**
+     * @var string
+     */
+    protected $customerId;
+
+    /**
+     * @var string
+     */
+    protected $disableReason = '';
+
+    /**
+     * @var array
+     */
+    protected $mandate = [];
+
+    /**
+     * @var array
+     */
+    protected $metadata = [];
+
+    /**
+     * @var string
+     */
+    protected $status;
+
+    /**
+     * @var string
+     */
+    protected $initialPaymentIntentId;
+
+    /**
+     * @var string
+     */
     protected $updatedAt;
+
+    /**
+     * @var array
+     */
     protected $nextAction;
+
+    /**
+     * @var array
+     */
     protected $failureReason = [];
+
+    /**
+     * @var string
+     */
     protected $merchantTriggerReason;
+
+    /**
+     * @var string
+     */
     protected $nextTriggeredBy;
+
+    /**
+     * @var array
+     */
     protected $paymentMethod = [];
-    protected $purpose;
+
+    /**
+     * @var string
+     */
     protected $requestId;
 
     /**
-     * Get ID
-     *
-     * @return mixed
+     * @return string
      */
-    public function getId() {
+    public function getId(): string
+    {
         return $this->id;
     }
 
     /**
-     * Set ID
+     * @param string $id
      *
-     * @param mixed $id
      * @return PaymentConsent
      */
-    public function setId( $id ) {
+    public function setId(string $id): PaymentConsent
+    {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * Get Customer ID
-     *
-     * @return mixed
+     * @return string
      */
-    public function getCustomerId() {
-        return $this->customerId;
+    public function getClientSecret(): string
+    {
+        return $this->clientSecret;
     }
 
     /**
-     * Set Customer ID
+     * @param string $clientSecret
      *
-     * @param mixed $customerId
      * @return PaymentConsent
      */
-    public function setCustomerId($customerId) {
-        $this->customerId = $customerId;
+    public function setClientSecret(string $clientSecret): PaymentConsent
+    {
+        $this->clientSecret = $clientSecret;
         return $this;
     }
 
     /**
-     * Get Metadata
-     *
-     * @return array
+     * @return string
      */
-    public function getMetadata() {
-        return $this->metadata;
+    public function getConnectedAccountId(): string
+    {
+        return $this->connectedAccountId;
     }
 
     /**
-     * Set Metadata
+     * @param string $connectedAccountId
      *
-     * @param array $metadata
      * @return PaymentConsent
      */
-    public function setMetadata($metadata) {
-        $this->metadata = $metadata;
+    public function setConnectedAccountId(string $connectedAccountId): PaymentConsent
+    {
+        $this->connectedAccountId = $connectedAccountId;
         return $this;
     }
 
     /**
-     * Get Status
-     *
-     * @return mixed
+     * @return string
      */
-    public function getStatus() {
-        return $this->status;
-    }
-
-    /**
-     * Set Status
-     *
-     * @param mixed $status
-     * @return PaymentConsent
-     */
-    public function setStatus($status) {
-        $this->status = $status;
-        return $this;
-    }
-
-    /**
-     * Get Initial Payment Intent Id
-     *
-     * @return mixed
-     */
-    public function getInitialPaymentIntentId() {
-        return $this->initialPaymentIntentId;
-    }
-
-    /**
-     * Set Initial Payment Intent Id
-     *
-     * @param mixed $initialPaymentIntentId
-     * @return PaymentConsent
-     */
-    public function setInitialPaymentIntentId($initialPaymentIntentId) {
-        $this->initialPaymentIntentId = $initialPaymentIntentId;
-        return $this;
-    }
-
-    /**
-     * Get Created At
-     *
-     * @return mixed
-     */
-    public function getCreatedAt() {
+    public function getCreatedAt(): string
+    {
         return $this->createdAt;
     }
 
     /**
-     * Set Created At
+     * @param string $createdAt
      *
-     * @param mixed $createdAt
      * @return PaymentConsent
      */
-    public function setCreatedAt($createdAt) {
+    public function setCreatedAt(string $createdAt): PaymentConsent
+    {
         $this->createdAt = $createdAt;
         return $this;
     }
 
     /**
-     * Get Updated At
-     *
-     * @return mixed
+     * @return string
      */
-    public function getUpdatedAt() {
+    public function getCustomerId(): string
+    {
+        return $this->customerId;
+    }
+
+    /**
+     * @param string $customerId
+     *
+     * @return PaymentConsent
+     */
+    public function setCustomerId(string $customerId): PaymentConsent
+    {
+        $this->customerId = $customerId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDisableReason(): string
+    {
+        return $this->disableReason;
+    }
+
+    /**
+     * @param string $disableReason
+     *
+     * @return PaymentConsent
+     */
+    public function setDisableReason(string $disableReason): PaymentConsent
+    {
+        $this->disableReason = $disableReason;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetadata(): array
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param array $metadata
+     *
+     * @return PaymentConsent
+     */
+    public function setMetadata(array $metadata): PaymentConsent
+    {
+        $this->metadata = $metadata;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMandate(): array
+    {
+        return $this->mandate;
+    }
+
+    /**
+     * @param array $mandate
+     *
+     * @return PaymentConsent
+     */
+    public function setMandate(array $mandate): PaymentConsent
+    {
+        $this->mandate = $mandate;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     *
+     * @return PaymentConsent
+     */
+    public function setStatus(string $status): PaymentConsent
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInitialPaymentIntentId(): string
+    {
+        return $this->initialPaymentIntentId;
+    }
+
+    /**
+     * @param string $initialPaymentIntentId
+     *
+     * @return PaymentConsent
+     */
+    public function setInitialPaymentIntentId(string $initialPaymentIntentId): PaymentConsent
+    {
+        $this->initialPaymentIntentId = $initialPaymentIntentId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
         return $this->updatedAt;
     }
 
     /**
-     * Set Created At
+     * @param string $updatedAt
      *
-     * @param mixed $createdAt
      * @return PaymentConsent
      */
-    public function setUpdatedAt($updatedAt) {
+    public function setUpdatedAt(string $updatedAt): PaymentConsent
+    {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
     /**
-     * Get Next Action
-     *
-     * @return mixed
+     * @return array
      */
-    public function getNextAction() {
+    public function getNextAction(): array
+    {
         return $this->nextAction;
     }
 
     /**
-     * Set Next Action
+     * @param array $nextAction
      *
-     * @param mixed $nextAction
      * @return PaymentConsent
      */
-    public function setNextAction($nextAction) {
+    public function setNextAction(array $nextAction): PaymentConsent
+    {
         $this->nextAction = $nextAction;
         return $this;
     }
 
     /**
-     * Get Failure Reason
-     *
      * @return array
      */
-    public function getFailureReason() {
+    public function getFailureReason(): array
+    {
         return $this->failureReason;
     }
 
     /**
-     * Set Failure Reason
-     *
      * @param array $failureReason
+     *
      * @return PaymentConsent
      */
-    public function setFailureReason($failureReason) {
+    public function setFailureReason(array $failureReason): PaymentConsent
+    {
         $this->failureReason = $failureReason;
         return $this;
     }
 
     /**
-     * Get Merchant Trigger Reason
-     *
-     * @return mixed
+     * @return string
      */
-    public function getMerchantTriggerReason() {
+    public function getMerchantTriggerReason(): string
+    {
         return $this->merchantTriggerReason;
     }
 
     /**
-     * Set Merchant Trigger Reason
+     * @param string $merchantTriggerReason
      *
-     * @param mixed $merchantTriggerReason
      * @return PaymentConsent
      */
-    public function setMerchantTriggerReason($merchantTriggerReason) {
+    public function setMerchantTriggerReason(string $merchantTriggerReason): PaymentConsent
+    {
         $this->merchantTriggerReason = $merchantTriggerReason;
         return $this;
     }
 
     /**
-     * Get Next Triggered By
-     *
-     * @return mixed
+     * @return string
      */
-    public function getNextTriggeredBy() {
+    public function getNextTriggeredBy(): string
+    {
         return $this->nextTriggeredBy;
     }
 
     /**
-     * Set Next Triggered By
+     * @param string $nextTriggeredBy
      *
-     * @param mixed $nextTriggeredBy
      * @return PaymentConsent
      */
-    public function setNextTriggeredBy($nextTriggeredBy) {
+    public function setNextTriggeredBy(string $nextTriggeredBy): PaymentConsent
+    {
         $this->nextTriggeredBy = $nextTriggeredBy;
         return $this;
     }
 
     /**
-     * Get Payment Method
-     *
      * @return array
      */
-    public function getPaymentMethod() {
+    public function getPaymentMethod(): array
+    {
         return $this->paymentMethod;
     }
 
     /**
-     * Set Payment Method
-     *
      * @param array $paymentMethod
+     *
      * @return PaymentConsent
      */
-    public function setPaymentMethod($paymentMethod) {
+    public function setPaymentMethod(array $paymentMethod): PaymentConsent
+    {
         $this->paymentMethod = $paymentMethod;
         return $this;
     }
 
     /**
-     * Get Purpose
-     *
-     * @return mixed
+     * @return string
      */
-    public function getPurpose() {
-        return $this->purpose;
-    }
-
-    /**
-     * Set Purpose
-     *
-     * @param mixed $purpose
-     * @return PaymentConsent
-     */
-    public function setPurpose($purpose) {
-        $this->purpose = $purpose;
-        return $this;
-    }
-
-    /**
-     * Get Request ID
-     *
-     * @return mixed
-     */
-    public function getRequestId() {
+    public function getRequestId(): string
+    {
         return $this->requestId;
     }
 
     /**
-     * Set Request ID
+     * @param string $requestId
      *
-     * @param mixed $requestId
      * @return PaymentConsent
      */
-    public function setRequestId($requestId) {
+    public function setRequestId(string $requestId): PaymentConsent
+    {
         $this->requestId = $requestId;
         return $this;
     }
 
     /**
-     * Get Card Band
-     *
      * @return string
      */
-    public function getCardBrand() {
+    public function getCardBrand(): string
+    {
         return $this->paymentMethod['card']['brand'] ?? '';
     }
 
     /**
-     * Get CARD EXPIRY MONTH
-     *
      * @return string
      */
-    public function getCardExpiryMonth() {
+    public function getCardExpiryMonth(): string
+    {
         return $this->paymentMethod['card']['expiry_month'] ?? '';
     }
 
     /**
-     * Get CARD EXPIRY YEAR
-     *
      * @return string
      */
-    public function getCardExpiryYear() {
+    public function getCardExpiryYear(): string
+    {
         return $this->paymentMethod['card']['expiry_year'] ?? '';
     }
 
     /**
-     * Get Card last4
-     *
      * @return string
      */
-    public function getCardLast4() {
+    public function getCardLast4(): string
+    {
         return $this->paymentMethod['card']['last4'] ?? '';
     }
 }

@@ -28,6 +28,7 @@ class Init
 
     /**
      * @param array $config
+     *
      * @return Init
      */
     public static function getInstance(array $config = [])
@@ -41,6 +42,7 @@ class Init
     /**
      * @param string $key
      * @param mixed $default
+     *
      * @return mixed
      */
     public function get(string $key, $default = null)

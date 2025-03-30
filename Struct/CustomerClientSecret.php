@@ -2,47 +2,52 @@
 
 namespace Airwallex\CommonLibrary\Struct;
 
-class CustomerClientSecret extends AbstractBase {
-
+class CustomerClientSecret extends AbstractBase
+{
+    /**
+     * @var string
+     */
     protected $expiredTime;
+
+    /**
+     * @var string
+     */
     protected $clientSecret;
 
     /**
-     * Get expired time
-     *
-     * @return mixed
+     * @return string
      */
-    public function getExpiredTime() {
+    public function getExpiredTime(): string
+    {
         return $this->expiredTime;
     }
 
     /**
-     * Set expired time
+     * @param string $expiredTime
      *
-     * @param mixed $id
      * @return CustomerClientSecret
      */
-    public function setExpiredTime( $expiredTime ) {
+    public function setExpiredTime(string $expiredTime): CustomerClientSecret
+    {
         $this->expiredTime = $expiredTime;
         return $this;
     }
 
     /**
-     * Get client secret
-     *
-     * @return string|null
+     * @return string
      */
-    public function getClientSecret() {
+    public function getClientSecret(): string
+    {
         return $this->clientSecret;
     }
 
     /**
-     * Set client secret
-     *
      * @param string $clientSecret
+     *
      * @return CustomerClientSecret
      */
-    public function setClientSecret( $clientSecret ) {
+    public function setClientSecret(string $clientSecret): CustomerClientSecret
+    {
         $this->clientSecret = $clientSecret;
         return $this;
     }

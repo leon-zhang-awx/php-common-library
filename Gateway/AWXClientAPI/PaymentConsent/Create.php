@@ -3,14 +3,13 @@
 namespace Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent;
 
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\AbstractApi;
-use Psr\Http\Message\ResponseInterface;
+use Airwallex\CommonLibrary\Struct\PaymentConsent;
+use GuzzleHttp\Psr7\Response;
 
 class Create extends AbstractApi
 {
     /**
-     * Returns the API endpoint URI for creating a customer.
-     *
-     * @return string API URL endpoint
+     * @inheritDoc
      */
     protected function getUri(): string
     {
@@ -18,9 +17,9 @@ class Create extends AbstractApi
     }
 
     /**
-     * Sets the customer ID.
+     * @param string $id
      *
-     * @return self Returns instance for method chaining
+     * @return Create
      */
     public function setCustomerId(string $id): self
     {
@@ -29,21 +28,21 @@ class Create extends AbstractApi
 
     /**
      * @param string $triggeredBy
+     *
      * @return Create
      */
-    public function setNextTriggeredBy(string $triggeredBy)
+    public function setNextTriggeredBy(string $triggeredBy): Create
     {
         return $this->setParam('next_triggered_by', $triggeredBy);
     }
 
     /**
-     * Parses the API response and returns the raw response body.
+     * @param Response $response
      *
-     * @param ResponseInterface $response HTTP response object
-     * @return string Parsed response as a raw string
+     * @return PaymentConsent
      */
-    protected function parseResponse($response): string
+    protected function parseResponse(Response $response): PaymentConsent
     {
-        return (string) $response->getBody();
+        return new PaymentConsent(json_decode($response->getBody(), true));
     }
 }

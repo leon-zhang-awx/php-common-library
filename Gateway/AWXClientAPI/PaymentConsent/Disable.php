@@ -2,17 +2,20 @@
 
 namespace Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent;
 
+use Airwallex\CommonLibrary\Configuration\Init;
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\AbstractApi;
-use Psr\Http\Message\ResponseInterface;
+use Airwallex\CommonLibrary\Struct\PaymentConsent;
+use GuzzleHttp\Psr7\Response;
 
 class Disable extends AbstractApi
 {
-    protected $paymentConsentId = null;
+    /**
+     * @var string
+     */
+    protected $paymentConsentId;
 
     /**
-     * Returns the API endpoint URI for creating a customer.
-     *
-     * @return string API URL endpoint
+     * @inheritDoc
      */
     protected function getUri(): string
     {
@@ -21,6 +24,7 @@ class Disable extends AbstractApi
 
     /**
      * @param string $paymentConsentId
+     *
      * @return $this
      */
     public function setPaymentConsentId(string $paymentConsentId): Disable
@@ -31,14 +35,13 @@ class Disable extends AbstractApi
     }
 
     /**
-     * @param ResponseInterface $response
+     * @param Response $response
      *
      * @return string
      */
-    protected function parseResponse($response): string
+    protected function parseResponse(Response $response): string
     {
-        $response = $this->parseJson($response); // TODO
-
-        return $response->status === 'DISABLED';
+        $paymentConsent = new PaymentConsent(json_decode($response->getBody(), true));
+        return $paymentConsent->getStatus() === 'DISABLED';
     }
 }

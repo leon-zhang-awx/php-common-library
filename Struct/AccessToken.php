@@ -4,7 +4,6 @@ namespace Airwallex\CommonLibrary\Struct;
 
 class AccessToken extends AbstractBase
 {
-
     /**
      * @var string
      */
@@ -25,6 +24,7 @@ class AccessToken extends AbstractBase
 
     /**
      * @param string $token
+     *
      * @return AccessToken
      */
     public function setToken(string $token): AccessToken
@@ -43,6 +43,7 @@ class AccessToken extends AbstractBase
 
     /**
      * @param string $expiresAt
+     *
      * @return AccessToken
      */
     public function setExpiresAt(string $expiresAt): AccessToken
