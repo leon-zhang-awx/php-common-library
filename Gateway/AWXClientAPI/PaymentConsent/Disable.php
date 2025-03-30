@@ -37,7 +37,7 @@ class Disable extends AbstractApi
      */
     protected function parseResponse($response): string
     {
-        $response = $this->parseJson($response);
+        $response = $this->parseJson($response); // TODO
 
         return $response->status === 'DISABLED';
     }

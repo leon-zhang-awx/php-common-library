@@ -7,6 +7,7 @@ use Airwallex\CommonLibrary\Configuration\Init;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use Composer\InstalledVersions;
@@ -26,8 +27,8 @@ class Authentication extends AbstractApi
         return 'authentication/login';
     }
 
-    protected function parseResponse($response)
+    protected function parseResponse(Response $response)
     {
-        return $this->parseJson($response);
+        return json_decode((string)$response->getBody());
     }
 }

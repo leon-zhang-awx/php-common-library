@@ -7,19 +7,38 @@ use Airwallex\CommonLibrary\Configuration\Init;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Psr7\Response;
 use Composer\InstalledVersions;
 
 abstract class AbstractApi
 {
-    protected const TIMEOUT = 30;
-    protected const X_API_VERSION = '2024-06-30';
+    /**
+     * @var int
+     */
+    const TIMEOUT = 30;
+
+    /**
+     * @var string
+     */
+    const DEMO_BASE_URL = 'https://pci-api-demo.airwallex.com/api/v1/';
+
+    /**
+     * @var string
+     */
+    const PRODUCTION_BASE_URL = 'https://pci-api.airwallex.com/api/v1/';
+
+    /**
+     * @var string
+     */
+    const X_API_VERSION = '2024-06-30';
+
+    /**
+     * @var array
+     */
     protected $params = [];
 
     /**
-     * Sends API request and returns parsed response.
-     *
-     * @return mixed Parsed response
+     * @return mixed
      * @throws GuzzleException
      * @throws Exception
      */
@@ -30,16 +49,15 @@ abstract class AbstractApi
             'timeout' => self::TIMEOUT,
         ]);
 
-        $method = $this->getMethod();
         $options = [
             'headers' => array_merge($this->getHeaders(), [
                 'Content-Type' => 'application/json',
-                'region' => 'string',
                 'x-api-version' => self::X_API_VERSION
             ]),
             'http_errors' => false
         ];
 
+        $method = $this->getMethod();
         if ($method === 'POST') {
             $this->initializePostParams();
             $options['json'] = $this->params;
@@ -52,9 +70,8 @@ abstract class AbstractApi
     }
 
     /**
-     * Initializes necessary parameters for POST request.
-     *
      * @return void
+     * @throws Exception
      */
     protected function initializePostParams()
     {
@@ -64,58 +81,49 @@ abstract class AbstractApi
     }
 
     /**
-     * Generates a unique request ID.
-     *
      * @return string
+     * @throws Exception
      */
-    protected function generateRequestId()
+    protected function generateRequestId(): string
     {
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
     }
 
     /**
-     * Sets multiple request parameters.
-     *
      * @param array $params
      * @return self
      */
-    protected function setParams(array $params)
+    protected function setParams(array $params): self
     {
         $this->params = array_merge($this->params, $params);
         return $this;
     }
 
     /**
-     * Sets a specific request parameter.
-     *
-     * @param string $name Parameter name
-     * @param string $value Parameter value
+     * @param string $name
+     * @param string $value
      * @return self
      */
-    protected function setParam($name, $value)
+    protected function setParam(string $name, string $value): self
     {
         $this->params[$name] = $value;
         return $this;
     }
 
     /**
-     * Removes a specific request parameter.
-     *
-     * @param string $name Parameter name
+     * @param string $name
      * @return self
      */
-    protected function unsetParam($name)
+    protected function unsetParam(string $name): self
     {
         unset($this->params[$name]);
         return $this;
     }
 
     /**
-     * Returns metadata information.
-     *
      * @return array
      */
-    protected function getMetadata()
+    protected function getMetadata(): array
     {
         return [
             'php_version' => phpversion(),
@@ -126,33 +134,25 @@ abstract class AbstractApi
     }
 
     /**
-     * Returns API base URL depending on environment.
-     *
      * @return string
      */
-    protected function getBaseUrl()
+    protected function getBaseUrl(): string
     {
-        return Init::getInstance()->get('env') === 'demo'
-            ? 'https://pci-api-demo.airwallex.com/api/v1/'
-            : 'https://pci-api.airwallex.com/api/v1/';
+        return Init::getInstance()->get('env') === 'demo' ? self::DEMO_BASE_URL : self::PRODUCTION_BASE_URL;
     }
 
     /**
-     * Returns request method type (default is GET).
-     *
      * @return string
      */
-    protected function getMethod()
+    protected function getMethod(): string
     {
         return 'POST';
     }
 
     /**
-     * Retrieves referrer data.
-     *
      * @return array
      */
-    private function getReferrerData()
+    private function getReferrerData(): array
     {
         return [
             'type' => Init::getInstance()->get('plugin_type'),
@@ -161,27 +161,21 @@ abstract class AbstractApi
     }
 
     /**
-     * Returns the request URI.
-     *
      * @return string
      */
-    abstract protected function getUri();
+    abstract protected function getUri(): string;
 
     /**
-     * Parses the API response.
-     *
-     * @param ResponseInterface $response
-     * @return mixed Parsed response
+     * @param Response $response
+     * @return mixed
      */
-    abstract protected function parseResponse($response);
+    abstract protected function parseResponse(Response $response);
 
     /**
-     * Returns authorization headers.
-     *
      * @return array
      * @throws GuzzleException
      */
-    protected function getHeaders()
+    protected function getHeaders(): array
     {
         return [
             'Authorization' => 'Bearer ' . $this->getToken(),
@@ -189,32 +183,19 @@ abstract class AbstractApi
     }
 
     /**
-     * Retrieves or generates an authentication token.
-     *
      * @return string
      * @throws GuzzleException
      */
-    protected function getToken()
+    protected function getToken(): string
     {
         $cache = CacheManager::getInstance();
         $token = $cache->get('airwallex_token');
 
         if (!$token) {
             $token = (new Authentication())->send()->token;
-            $cache->set('airwallex_token', $token, 60 * 30);
+            $cache->set('airwallex_token', $token, 60 * 30); // Cache for 30 minutes
         }
 
         return $token;
-    }
-
-    /**
-     * Parses JSON response into an object.
-     *
-     * @param ResponseInterface $response
-     * @return object Parsed JSON object
-     */
-    protected function parseJson($response)
-    {
-        return json_decode((string)$response->getBody(), false);
     }
 }
