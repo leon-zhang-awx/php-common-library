@@ -1,24 +1,50 @@
 <?php
+
 namespace Airwallex\CommonLibrary\Configuration;
 
-class Init {
+class Init
+{
+    /**
+     * @var Init|null
+     */
     private static $instance = null;
+
+    /**
+     * @var array
+     */
     protected $config = [];
 
-    private function __construct(array $config = []) {
+    /**
+     * @param array $config
+     */
+    private function __construct(array $config = [])
+    {
         $this->config = $config;
     }
 
-    private function __clone() {}
+    private function __clone()
+    {
+    }
 
-    public static function getInstance(array $config = []) {
+    /**
+     * @param array $config
+     * @return Init
+     */
+    public static function getInstance(array $config = [])
+    {
         if (self::$instance === null) {
             self::$instance = new self($config);
         }
         return self::$instance;
     }
 
-    public function get($key, $default = null) {
+    /**
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function get(string $key, $default = null)
+    {
         return $this->config[$key] ?? $default;
     }
 }
