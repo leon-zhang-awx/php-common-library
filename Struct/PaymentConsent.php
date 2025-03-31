@@ -4,6 +4,20 @@ namespace Airwallex\CommonLibrary\Struct;
 
 class PaymentConsent extends AbstractBase
 {
+    /**
+     * @var string
+     */
+    const STATUS_VERIFIED = 'VERIFIED';
+
+    /**
+     * @var string
+     */
+    const TRIGGERED_BY_CUSTOMER = 'customer';
+
+    /**
+     * @var string
+     */
+    const TRIGGERED_BY_MERCHANT = 'merchant';
 
     /**
      * @var string

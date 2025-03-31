@@ -3,28 +3,12 @@
 namespace Airwallex\CommonLibrary\UseCase\PaymentConsent;
 
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent\GetList;
-use Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent\Index;
 use Airwallex\CommonLibrary\Struct\PaymentConsent;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 
 class All
 {
-    /**
-     * @var string
-     */
-    const STATUS_VERIFIED = 'VERIFIED';
-
-    /**
-     * @var string
-     */
-    const TRIGGERED_BY_CUSTOMER = 'customer';
-
-    /**
-     * @var string
-     */
-    const TRIGGERED_BY_MERCHANT = 'merchant';
-
     /**
      * @var string
      */
@@ -49,6 +33,7 @@ class All
                     ->setCustomerId($this->customerId)
                     ->setNextTriggeredBy($this->triggeredBy)
                     ->setPage($index)
+                    ->setStatus(PaymentConsent::STATUS_VERIFIED)
                     ->send();
 
                 if (empty($list)) {
@@ -56,9 +41,7 @@ class All
                 }
                 /** @var PaymentConsent $paymentConsent */
                 foreach ($list as $paymentConsent) {
-                    if ($paymentConsent->getStatus() === self::STATUS_VERIFIED) {
-                        $all[] = $paymentConsent;
-                    }
+                    $all[] = $paymentConsent;
                 }
 
                 $index++;

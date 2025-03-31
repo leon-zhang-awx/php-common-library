@@ -47,7 +47,7 @@ class GetList extends AbstractApi
      *
      * @return GetList
      */
-    public function setPage(int $pageNumber = 1, int $pageSize = 20): GetList
+    public function setPage(int $pageNumber = 0, int $pageSize = 10): GetList
     {
         return $this->setParam('page_num', $pageNumber)
             ->setParam('page_size', $pageSize);
