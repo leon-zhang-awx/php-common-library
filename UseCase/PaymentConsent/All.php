@@ -29,20 +29,20 @@ class All
         $all = [];
         try {
             while (true) {
-                $list = (new GetList())
+                $getList = (new GetList())
                     ->setCustomerId($this->customerId)
                     ->setNextTriggeredBy($this->triggeredBy)
                     ->setPage($index)
                     ->setStatus(PaymentConsent::STATUS_VERIFIED)
                     ->send();
 
-                if (empty($list)) {
-                    break;
+                /** @var PaymentConsent $paymentConsent */
+                foreach ($getList->getItems() as $paymentConsent) {
+                    $all[] = $paymentConsent;
                 }
 
-                /** @var PaymentConsent $paymentConsent */
-                foreach ($list as $paymentConsent) {
-                    $all[] = $paymentConsent;
+                if (!$getList->hasMore()) {
+                    break;
                 }
 
                 $index++;

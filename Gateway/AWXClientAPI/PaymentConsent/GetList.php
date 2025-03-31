@@ -5,6 +5,7 @@ namespace Airwallex\CommonLibrary\Gateway\AWXClientAPI\PaymentConsent;
 use Airwallex\CommonLibrary\Gateway\AWXClientAPI\AbstractApi;
 use Airwallex\CommonLibrary\Struct\PaymentConsent;
 use GuzzleHttp\Psr7\Response;
+use Airwallex\CommonLibrary\Struct\GetList as StructGetList;
 
 class GetList extends AbstractApi
 {
@@ -97,17 +98,20 @@ class GetList extends AbstractApi
     /**
      * @param Response $response
      *
-     * @return array
+     * @return StructGetList
      */
-    protected function parseResponse(Response $response): array
+    protected function parseResponse(Response $response): StructGetList
     {
-        $result = [];
+        $items = [];
         $responseArray = json_decode($response->getBody(), true);
         if (!empty($responseArray['items'])) {
             foreach ($responseArray['items'] as $item) {
-                $result[] = new PaymentConsent($item);
+                $items[] = new PaymentConsent($item);
             }
         }
-        return $result;
+        return new StructGetList([
+            'items' => $items,
+            'has_more' => $responseArray['has_more'],
+        ]);
     }
 }
