@@ -7,6 +7,7 @@ use Airwallex\CommonLibrary\UseCase\PaymentConsent\All;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
+use Airwallex\CommonLibrary\Struct\PaymentConsent;
 
 final class AllTest extends TestCase
 {
@@ -18,8 +19,8 @@ final class AllTest extends TestCase
     {
         $customer = (new Create())->setCustomerId()->send();
         $all = (new All())
-            ->setNextTriggeredBy(All::TRIGGERED_BY_CUSTOMER)
-            ->setCustomerId('cus_hkdm7kv89gnrhfzy4g3')
+            ->setNextTriggeredBy(PaymentConsent::TRIGGERED_BY_CUSTOMER)
+            ->setCustomerId($customer->getId())
             ->get();
         $this->assertCount(0, $all);
     }

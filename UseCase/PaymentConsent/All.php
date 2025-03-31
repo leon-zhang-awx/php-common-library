@@ -39,6 +39,7 @@ class All
                 if (empty($list)) {
                     break;
                 }
+
                 /** @var PaymentConsent $paymentConsent */
                 foreach ($list as $paymentConsent) {
                     $all[] = $paymentConsent;

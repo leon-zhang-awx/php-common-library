@@ -47,7 +47,7 @@ class GetList extends AbstractApi
      *
      * @return GetList
      */
-    public function setPage(int $pageNumber = 0, int $pageSize = 10): GetList
+    public function setPage(int $pageNumber = 0, int $pageSize = 1000): GetList
     {
         return $this->setParam('page_num', $pageNumber)
             ->setParam('page_size', $pageSize);
@@ -103,12 +103,11 @@ class GetList extends AbstractApi
     {
         $result = [];
         $responseArray = json_decode($response->getBody(), true);
-        if (!empty($responseArray['has_more'])) {
+        if (!empty($responseArray['items'])) {
             foreach ($responseArray['items'] as $item) {
                 $result[] = new PaymentConsent($item);
             }
         }
-
         return $result;
     }
 }
